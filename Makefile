@@ -2,9 +2,8 @@ NAME = picsorter
 BUILD_GIT_SHA = $(shell git log -n 1 --pretty=format:"%h")
 GIT_REMOTE = $(shell git remote get-url --push origin)
 SSH_USERNAME ?= $(USER)
-#IMAGE = creisor/$(NAME)
-#IMAGE_TAGGED = $(IMAGE):$(BUILD_GIT_SHA)
-IMAGE = c295f68afc30
+IMAGE = creisor/$(NAME)
+IMAGE_TAGGED = $(IMAGE):$(BUILD_GIT_SHA)
 
 .PHONY: help
 help: ## Shows the help
@@ -30,7 +29,8 @@ docker-build-image: ## Build the docker image
 	--build-arg BUILD_GIT_SHA=$(BUILD_GIT_SHA) \
 	--build-arg NAME=$(NAME) \
 	--build-arg BUILT_BY=$(SSH_USERNAME) \
-	--build-arg GIT_REMOTE=$(GIT_REMOTE) \
+	.
+	#--build-arg GIT_REMOTE=$(GIT_REMOTE) \
 
 .PHONY: docker-run
 docker-run: ## Run the container
