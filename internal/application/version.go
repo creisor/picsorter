@@ -2,26 +2,19 @@ package application
 
 import (
 	"io/ioutil"
-	"os"
+
+	"github.com/creisor/picsorter/cmd"
 )
 
 func Version(versionFile string) string {
 	defaultVersion := "0.0.0"
 
-	if fileExists(versionFile) {
+	if cmd.FileExists(versionFile) {
 		ver, err := ioutil.ReadFile(versionFile)
 		if err != nil {
 			return defaultVersion
 		}
-		return ver
+		return string(ver)
 	}
 	return defaultVersion
-}
-
-func fileExists(filename string) bool {
-	info, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return !info.IsDir()
 }

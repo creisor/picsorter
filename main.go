@@ -5,7 +5,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/creisor/picsorter/application"
+	"github.com/creisor/picsorter/cmd"
+	"github.com/creisor/picsorter/internal/application"
+
 	"github.com/rwcarlsen/goexif/exif"
 	"github.com/urfave/cli"
 )
@@ -14,7 +16,7 @@ var testFile = "IMG_0975.jpg"
 
 var (
 	Version string
-	debug   false
+	debug   = false
 )
 
 func main() {
