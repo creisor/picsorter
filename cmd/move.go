@@ -43,6 +43,10 @@ func MoveAction(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
+	if len(imageFiles) < 1 {
+		fmt.Printf("No files found in %s\n", sourceDir)
+		return nil
+	}
 
 	dryRun := c.Bool("dry-run")
 	if dryRun {
