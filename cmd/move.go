@@ -4,10 +4,12 @@ import (
 	"fmt"
 
 	"github.com/creisor/picsorter/internal/imagefile"
-	"github.com/urfave/cli"
+	"github.com/pkg/errors"
+	"github.com/urfave/cli/v2"
 )
 
 var (
+	// Move is a cli subcommand for running the MoveAction
 	Move = cli.Command{
 		Name:    "move",
 		Aliases: []string{"m"},
@@ -17,6 +19,7 @@ var (
 	}
 )
 
+// MoveAction is a cli Action func for moving files from a source directory to a destination directory
 func MoveAction(c *cli.Context) error {
 	sourceDir, err := ResolveDirectoryArg(c.String("source"))
 	if err != nil {
@@ -35,13 +38,23 @@ func MoveAction(c *cli.Context) error {
 
 	metaGetter := imagefile.NewDateTimeGetter()
 	crawler := imagefile.NewImageCrawler(sourceDir, metaGetter)
-	// TODO: next opendev
-	//imageFiles, err := crawler.Files()
-	//if err != nil {
-	//	return err
-	//}
-	//organizer := imagefile.NewMover(imageFiles)
 
-	fmt.Printf("MoveAction TBD\n")
+	imageFiles, err := crawler.Files()
+	if err != nil {
+		return err
+	}
+
+	dryRun := c.Bool("dry-run")
+	if dryRun {
+		fmt.Println("[DRY RUN] commands will not be executed")
+	}
+
+	organizer := imagefile.NewMover(imageFiles, sourceDir, destDir)
+
+	err = organizer.Execute(dryRun)
+	if err != nil {
+		return errors.Wrap(err, "Failed to execute the move")
+	}
+
 	return nil
 }
