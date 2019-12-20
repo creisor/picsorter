@@ -26,11 +26,6 @@ import (
 
 func main() {
 	fileStructure := make(map[string]string)
-	baseDir := "/Users/creisor/tmp/picsorter"
-
-	if err := os.Chdir(baseDir); err != nil {
-		log.Fatal(err)
-	}
 
 	err := filepath.Walk("/Users/creisor/tmp/picsorter", func(path string, info os.FileInfo, err error) error {
 
