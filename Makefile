@@ -44,20 +44,16 @@ lint: ## Run linter and static analysis
 unit: ## Runs the unit tests
 	go test ./...
 
-.PHONY: go-build
-go-build: ## builds the binary
-	go build -ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD_GIT_SHA)" -o $(NAME)
-
 .PHONY: go-build-all
 go-build-all: go-build-mac go-build-linux ## builds the binaries for all supported platforms
 
 .PHONY: go-build-mac
 go-build-mac: ## builds the binary for MacOS
-	GOOS=darwin GOARCH=amd64 go build -ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD_GIT_SHA)" -o build/$(NAME)-darwin-amd64
+	GOOS=darwin GOARCH=amd64 go build -ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD_GIT_SHA)" -o build/$(NAME)-$(VERSION)-darwin-amd64
 
 .PHONY: go-build-linux
 go-build-linux: ## builds the binary for MacOS
-	GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD_GIT_SHA)" -o build/$(NAME)-linux-amd64
+	GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD_GIT_SHA)" -o build/$(NAME)-$(VERSION)-linux-amd64
 
 .PHONY: docker-build-image
 docker-build-image: ## Build the docker image
