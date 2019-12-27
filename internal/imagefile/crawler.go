@@ -59,7 +59,8 @@ func (c *ImageCrawler) Walker(path string, info os.FileInfo, err error) error {
 	if strings.Split(mimeType, "/")[0] == "image" {
 		dt, err := c.DateGetter.Get(bytes.NewReader(data))
 		if err != nil {
-			return err
+			fmt.Printf("ignoring '%s' due to error: %s\n", path, err)
+			return nil
 		}
 
 		// Get() returns an interface{}, so we must assert the type we expect
